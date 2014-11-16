@@ -33,4 +33,23 @@ public class OneWire {
 		}
 		return devList;
 	}
+
+	/**
+	 * Returns measurement for the given address
+	 * 
+	 * @param address one wire device address, e.g. "222228-00000393ce49"
+	 * 
+	 * @return Measurement as float
+	 * 
+	 * @throws Exception CRC- or I/O-Error
+	 */
+	public float getValue(String address) throws Exception {
+		float value = Float.MIN_VALUE;
+		File deviceDir = new File(DEVICES+"/"+address);
+		if (address.startsWith("28-")) {
+			OneWireDevice dev = new DS18B20(deviceDir);
+			value = dev.getValue();
+		}
+		return value;
+	}
 }

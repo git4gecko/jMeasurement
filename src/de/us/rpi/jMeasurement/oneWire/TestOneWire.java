@@ -14,7 +14,8 @@ public class TestOneWire {
 
 	/**
 	 * Startup:
-	 *  1: List all active devices and the measurements
+	 *  1) List all active devices and the measurements: OneWire.getAllDevices()
+	 *  2) Retrieve measurement for given device (address)
 	 *  
 	 * @param args none
 	 */
@@ -23,8 +24,11 @@ public class TestOneWire {
 		try {
 			ow = new OneWire();
 			List<OneWireDevice> devList = ow.getAllDevices();
-			for (OneWireDevice dev : devList) 
-				System.out.println("Device: "+dev.getAddress()+", value="+dev.getValue());
+			for (OneWireDevice dev : devList) {
+				System.out.println("1. Device: "+dev.getAddress()+", value="+dev.getValue());
+				float value = ow.getValue(dev.getAddress());
+				System.out.println("2. Device: "+dev.getAddress()+", value="+value);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
