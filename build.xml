@@ -18,13 +18,15 @@
         description="compile the source " >
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac 	srcdir="${src}"
+				debug="yes"
+				classpath="${basedir}/lib/pi4j-core.jar"
 				destdir="${build}"/>
 	</target>
 	
 	<target name="deploy" depends="version" description="copy files" >
 		 <scp file="${version}/lib/jMeasurement.jar"
-		       todir="pi@wetterstation:/home/pi/jPiBaseTest" 
-		       keyfile="${user.home}/.ssh/biggecko"
+		       todir="us@ironrpi:/home/us/jMeasurement" 
+		       keyfile="${user.home}/.ssh/priv_biggecko.ppk"
 		  />
 	</target>
 
