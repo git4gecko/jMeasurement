@@ -9,7 +9,7 @@ public class DatabaseCon {
 	public DatabaseCon() throws Exception {
 		 Class.forName("com.mysql.jdbc.Driver").newInstance(); 
 		 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/measurement?" +
-				 						"user=root&password=jacla42$");
+				 						"user=measure&password=6E8AUsK1P9WeboQX95EZ");
 	}
 
 	public Connection getConnection() {
