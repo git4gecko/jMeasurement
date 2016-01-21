@@ -3,6 +3,8 @@ package de.us.rpi.jMeasurement.job;
 import java.sql.SQLException;
 import java.util.Timer;
 
+import de.us.rpi.jMeasurement.ubidots.Ubidots;
+
 public class MeasureJob {
 
 	private DatabaseCon con = null;
@@ -23,7 +25,7 @@ public class MeasureJob {
 		DatabaseCon con = null;
 		try {
 			con = new DatabaseCon();
-			timer.schedule( new MeasureTask(con), 1000, this.pollIntervall);
+			timer.schedule( new MeasureTask(con, new Ubidots()), 1000, this.pollIntervall);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -19,7 +19,7 @@
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac 	srcdir="${src}"
 				debug="yes"
-				classpath="${basedir}/lib/pi4j-core.jar"
+				classpath="${basedir}/lib/pi4j-core.jar; ${basedir}/lib/ubidots.jar"
 				destdir="${build}"/>
 	</target>
 	
@@ -28,6 +28,11 @@
 		       todir="us@masterpi:/home/us/Projekte/jMeasurement" 
 		       keyfile="${user.home}/.ssh/ssh4biggecko.ppk"
 		  />
+		 <scp  todir="us@masterpi:/home/us/Projekte/jMeasurement" 
+		       keyfile="${user.home}/.ssh/ssh4biggecko.ppk">
+				<fileset dir="${basedir}/resource" />
+		  </scp>
+		
 	</target>
 
 	<target name="version" depends="compile" description="generate the distribution" >

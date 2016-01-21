@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/pi4j-core.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.38-bin.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ubidots-java"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

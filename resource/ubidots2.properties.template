@@ -1,0 +1,4 @@
+ident=<API Key>
+datasource=<dataSource ident>
+tempOffice=<variable ident>
+tempGarden=<variable ident>
