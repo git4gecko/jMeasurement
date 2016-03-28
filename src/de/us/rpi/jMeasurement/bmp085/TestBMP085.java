@@ -4,7 +4,7 @@ public class TestBMP085 {
 
 	public static void main(String arg[]) {
 		try {
-			BMP085Device dev = new BMP085Device(0);
+			BMP085Device dev = new BMP085Device(1);
 			System.out.println("got device!");
 			BMP085Result data = dev.process();
 			System.out.println(String.format("temperature= %5.3f° Celsius, pressure= %6.2f hpa", 

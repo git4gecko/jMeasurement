@@ -15,6 +15,7 @@ public class Ubidots {
 	private DataSource dataSource;
 	private Variable tempOffice;
 	private Variable tempGarden;
+	private Variable pressure;
 	
 	public Ubidots() {
 		init();
@@ -28,11 +29,17 @@ public class Ubidots {
 		tempGarden.saveValue(value);
 	}
 	
+	public void writePressure(float value) {
+		pressure.saveValue(value);
+		
+	}
+	
 	private void init() {
 		Properties p = FileTool.readProperty(new File(PROP_FILE));
 		api =  new ApiClient(p.getProperty("ident"));
 		dataSource = api.getDataSource(p.getProperty("datasource"));
 		tempOffice = api.getVariable(p.getProperty("tempOffice"));
 		tempGarden = api.getVariable(p.getProperty("tempGarden"));
+		pressure = api.getVariable(p.getProperty("pressure"));
 	}
 }

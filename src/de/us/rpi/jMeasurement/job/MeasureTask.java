@@ -6,12 +6,15 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.TimerTask;
 
+import de.us.rpi.jMeasurement.bmp085.BMP085Device;
+import de.us.rpi.jMeasurement.bmp085.BMP085Result;
 import de.us.rpi.jMeasurement.oneWire.OneWire;
 import de.us.rpi.jMeasurement.oneWire.OneWireDevice;
 import de.us.rpi.jMeasurement.ubidots.Ubidots;
 
 public class MeasureTask extends TimerTask {
-	private final String INSERT_SQL = "insert into DS18B20 (value, at, sensor_sensorId) values (?, ?, ?)";
+	private final static String INSERT__DS18B20_SQL = "insert into DS18B20 (value, at, sensor_sensorId) values (?, ?, ?)";
+	private final static String INSERT__BMP085_SQL = "insert into BMP085 (pressure, temperature, at, sensor_sensorId) values (?, ?, ?)";
 	private DatabaseCon con = null;
 	private OneWire ow = null;
 	private List<OneWireDevice> oneWireList  = null;
@@ -27,9 +30,38 @@ public class MeasureTask extends TimerTask {
 	@Override
 	public void run() {
 		System.out.println("MeasureTask: "+System.currentTimeMillis());
+		processDS18B20();
+		processBMP085();
+	}
+	
+	private void processBMP085() {
+		PreparedStatement pStmnt = null;
+		try {		
+			pStmnt = con.getConnection().prepareStatement(INSERT__BMP085_SQL);
+			BMP085Device dev = new BMP085Device(1);
+			// System.out.println("got device!");
+			BMP085Result data = dev.process();
+			System.out.println(String.format("temperature= %5.3f° Celsius, pressure= %6.2f hpa", 
+													data.getTemperature(), (data.getPressure() * 0.01)));
+			dots.writePressure((float)(data.getPressure() * 0.01));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pStmnt != null) {
+				try {
+					pStmnt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	private void processDS18B20() {
 		PreparedStatement pStmnt = null;
 		try {
-			pStmnt = con.getConnection().prepareStatement(INSERT_SQL);
+			pStmnt = con.getConnection().prepareStatement(INSERT__DS18B20_SQL);
 			for (OneWireDevice dev : oneWireList) {
 				System.out.println("MeasureTask: Dev="+dev.getAddress()+", value="+dev.getValue());
 				pStmnt.setFloat(1, dev.getValue());
